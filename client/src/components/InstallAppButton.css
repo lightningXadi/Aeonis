@@ -1,0 +1,39 @@
+.install-app {
+  position: relative;
+  display: inline-flex;
+}
+
+.install-app__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--color-line);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.install-app__btn:hover {
+  border-color: var(--color-coral);
+  background: var(--color-bg-alt);
+}
+
+.install-app__hint {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 240px;
+  background: var(--color-ink);
+  color: var(--color-bg);
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  font-size: 0.82rem;
+  line-height: 1.4;
+  z-index: 20;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}

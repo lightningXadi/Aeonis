@@ -1,0 +1,27 @@
+.avatar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.avatar--fox    { background: #F2D9C6; }
+.avatar--owl    { background: #DCE3D3; }
+.avatar--rabbit { background: #EDE6D8; }
+.avatar--deer   { background: #E6D3B8; }
+
+.avatar__online-dot {
+  position: absolute;
+  right: -1px;
+  bottom: -1px;
+  width: 28%;
+  height: 28%;
+  min-width: 9px;
+  min-height: 9px;
+  background: var(--color-sage);
+  border: 2px solid var(--color-bg);
+  border-radius: 50%;
+}

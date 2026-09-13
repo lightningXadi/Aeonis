@@ -1,0 +1,121 @@
+:root {
+  /* --- Core palette --- */
+  --color-bg: #F5F1E8;          /* warm cream background */
+  --color-bg-alt: #EDE6D8;      /* slightly deeper cream, for section separation */
+  --color-surface: #FFFFFF;     /* card surfaces */
+  --color-ink: #2E2620;         /* primary text, warm near-black */
+  --color-ink-soft: #6B5E52;    /* secondary text */
+  --color-coral: #E8916B;       /* primary accent / CTA */
+  --color-coral-dark: #D97A52;  /* coral hover/active */
+  --color-sage: #8FA382;        /* secondary accent */
+  --color-sage-dark: #75896A;
+  --color-tan: #C9A66B;         /* tertiary warm accent, used in gradients/glow */
+  --color-line: #DED4C2;        /* hairline borders on cream */
+
+  /* --- Grid / glow tuning (dark-on-light versions of the accents) --- */
+  --color-grid-line: #2E2620;   /* darkened to near-ink for visibility on cream */
+
+  /* --- Radii & spacing --- */
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-sm: 10px;
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 40px;
+  --space-5: 64px;
+
+  /* --- Type --- */
+  /* Simple/utility text: nav, footer, small labels, install button */
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* Normal/body text + buttons, per request — real font file, uploaded */
+  --font-cormorant: 'Cormorant', Georgia, 'Times New Roman', serif;
+  /* Headline display font — real font file, uploaded */
+  --font-display: 'Airy Blend', Georgia, serif;
+  /* Logo wordmark, "AEONIS" only — real font file, uploaded */
+  --font-logo: 'Briqusion', 'Inter', system-ui, sans-serif;
+}
+
+/* Real font files, dropped in from your uploads. */
+@font-face {
+  font-family: 'Cormorant';
+  src: url('/fonts/Cormorant-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cormorant';
+  src: url('/fonts/Cormorant-RegularItalic.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cormorant';
+  src: url('/fonts/Cormorant-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cormorant';
+  src: url('/fonts/Cormorant-Semi.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Airy Blend';
+  src: url('/fonts/AiryBlend-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Briqusion';
+  src: url('/fonts/Briqusion.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  min-height: 100dvh;
+}
+
+#root {
+  min-height: 100dvh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}

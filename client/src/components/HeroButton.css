@@ -1,0 +1,44 @@
+.hero-btn-glow {
+  display: inline-flex;
+}
+
+.hero-btn-glow .border-glow-inner {
+  border-radius: 999px;
+}
+
+.hero-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 18px 40px;
+  font-family: var(--font-cormorant);
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border-radius: 999px;
+  transition: transform 0.15s ease;
+  white-space: nowrap;
+}
+
+.hero-btn:hover {
+  transform: translateY(-1px);
+}
+
+.hero-btn:active {
+  transform: translateY(0);
+}
+
+.hero-btn--primary {
+  color: #FFFDF9;
+}
+
+.hero-btn--secondary {
+  color: #F5F1E8;
+}
+
+@media (max-width: 520px) {
+  .hero-btn {
+    padding: 16px 30px;
+    font-size: 0.98rem;
+  }
+}

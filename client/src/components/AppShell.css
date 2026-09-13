@@ -1,0 +1,110 @@
+.app-shell {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-bg);
+}
+
+.app-shell__topbar {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 16px clamp(16px, 4vw, 40px);
+  border-bottom: 1px solid var(--color-line);
+  background: var(--color-bg);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  transition: top 0.15s ease;
+}
+
+.app-shell--call-active {
+  padding-top: 54px; /* real space for the fixed call bar, not just a sticky offset */
+}
+
+.app-shell--call-active .app-shell__topbar {
+  top: 54px; /* keeps it sticking below the call bar on scroll too */
+}
+
+.app-shell__logo {
+  font-family: var(--font-logo);
+  font-size: 1.5rem;
+  color: var(--color-ink);
+  flex-shrink: 0;
+}
+
+.app-shell__nav {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+}
+
+.app-shell__nav-link {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-ink-soft);
+  padding: 8px 16px;
+  border-radius: 999px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.app-shell__nav-link:hover {
+  background: var(--color-bg-alt);
+}
+
+.app-shell__nav-link--active {
+  background: var(--color-ink);
+  color: var(--color-bg);
+}
+
+.app-shell__nav-link--active:hover {
+  background: var(--color-ink);
+  color: var(--color-bg);
+}
+
+.app-shell__user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.app-shell__user-name {
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--color-ink);
+  display: none;
+}
+
+.app-shell__logout {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-ink-soft);
+  background: transparent;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.app-shell__logout:hover {
+  border-color: var(--color-coral);
+  color: var(--color-coral-dark);
+}
+
+.app-shell__main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+@media (min-width: 640px) {
+  .app-shell__user-name {
+    display: inline;
+  }
+}
