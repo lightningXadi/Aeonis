@@ -158,6 +158,8 @@ export function CallProvider({ children }) {
     pc.onconnectionstatechange = () => {
       if (pc.connectionState === 'connected') {
         everAnsweredRef.current = true;
+        // Audio is up: the "never connected" watchdog must not fire anymore.
+        clearTimeout(connectTimeoutRef.current);
         if (!peerConnectedAtRef.current.has(remoteUserId)) {
           peerConnectedAtRef.current.set(remoteUserId, Date.now());
         }
@@ -470,9 +472,12 @@ export function CallProvider({ children }) {
   useEffect(() => {
     if (callState === 'connected' && !everAnsweredRef.current) {
       connectTimeoutRef.current = setTimeout(() => {
+        // Re-check now: audio may have connected after this timer was armed.
+        // (Before, the timer ignored that and ended every call at ~15s.)
+        if (everAnsweredRef.current) return;
         setError('No audio connection could be established — likely a network/TURN server issue. Ending the call.');
         setTimeout(() => endCall(), 2500);
-      }, 15000);
+      }, 20000);
       return () => clearTimeout(connectTimeoutRef.current);
     }
   }, [callState, endCall]);
