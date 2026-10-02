@@ -117,3 +117,8 @@ export function rejectFriendRequest(token, requestId) {
 export function removeFriend(token, userId) {
   return request(`/friends/${userId}`, { method: 'DELETE', token });
 }
+
+/** Exchange a Google ID token (from "Sign in with Google") for an Aeonis session. */
+export function googleLogin(credential) {
+  return request('/auth/google', { method: 'POST', body: { credential } });
+}
