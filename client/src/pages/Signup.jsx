@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import AuthLayout from '../components/AuthLayout';
 import PasswordField from '../components/PasswordField';
+import GoogleButton from '../components/GoogleButton';
 import '../components/AuthForm.css';
 import { signup } from '../api/client';
 import { setSession, isLoggedIn } from '../context/auth';
@@ -89,9 +90,7 @@ export default function Signup() {
       </form>
 
       <div className="auth-divider">or</div>
-      <button type="button" className="auth-google-btn" disabled title="Google sign-in isn’t set up yet">
-        Continue with Google <span className="pill">Soon</span>
-      </button>
+      <GoogleButton text="signup_with" onError={setError} />
     </AuthLayout>
   );
 }
