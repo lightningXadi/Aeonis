@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useRef, useState } f
 import { getSocket } from '../socket';
 import { getToken, getStoredUser } from './auth';
 import { getTurnCredentials, getConversations, createConversation } from '../api/client';
+import { startKeepAlive } from '../utils/callKeepAlive';
 
 const CallContext = createContext(null);
 
@@ -71,6 +72,12 @@ export function CallProvider({ children }) {
       const el = document.createElement('audio');
       el.autoplay = true;
       el.playsInline = true;
+      // Another app taking audio focus (or the page being hidden) makes the
+      // browser pause this element. On a live call that means you go deaf, so
+      // start it again straight away.
+      el.addEventListener('pause', () => {
+        if (el.srcObject && audioElsRef.current.get(userId) === el) el.play().catch(() => {});
+      });
       document.body.appendChild(el);
       audioElsRef.current.set(userId, el);
     }
@@ -481,6 +488,32 @@ export function CallProvider({ children }) {
       return () => clearTimeout(connectTimeoutRef.current);
     }
   }, [callState, endCall]);
+
+  // Keep the call alive when the app is backgrounded (see utils/callKeepAlive.js).
+  const keepAliveRef = useRef(null);
+  useEffect(() => {
+    if (callState !== 'connected') return undefined;
+    const keepAlive = startKeepAlive({
+      getLocalStream: () => localStreamRef.current,
+      setLocalStream: (stream) => { localStreamRef.current = stream; },
+      getPeers: () => peersRef.current,
+      getAudioEls: () => audioElsRef.current,
+      isMuted: () => mutedRef.current,
+      onAudioBlocked: () => setAudioBlocked(true),
+      onHangup: () => endCall(),
+      onToggleMute: () => toggleMute(),
+      ensureSocket: () => { const sock = getSocket(); if (!sock.connected) sock.connect(); }
+    });
+    keepAliveRef.current = keepAlive;
+    return () => { keepAlive.stop(); keepAliveRef.current = null; };
+  }, [callState, endCall, toggleMute]);
+
+  // Title shown in the OS call notification.
+  useEffect(() => {
+    if (callState !== 'connected' || participants.length === 0) return;
+    const names = participants.map((p) => p.name).join(', ');
+    keepAliveRef.current?.setCallTitle(`Call with ${names}`);
+  }, [callState, participants]);
 
   return (
     <CallContext.Provider value={{
