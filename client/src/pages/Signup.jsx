@@ -90,7 +90,7 @@ export default function Signup() {
       </form>
 
       <div className="auth-divider">or</div>
-      <GoogleButton text="signup_with" onError={setError} />
+      <GoogleButton label="Continue with Google" onError={setError} />
     </AuthLayout>
   );
 }
