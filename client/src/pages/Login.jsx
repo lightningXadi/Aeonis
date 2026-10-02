@@ -77,7 +77,7 @@ export default function Login() {
       </form>
 
       <div className="auth-divider">or</div>
-      <GoogleButton text="signin_with" onError={setError} />
+      <GoogleButton label="Continue with Google" onError={setError} />
     </AuthLayout>
   );
 }
