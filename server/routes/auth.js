@@ -79,7 +79,9 @@ router.post('/google', async (req, res) => {
       idToken: credential,
       audience: process.env.GOOGLE_CLIENT_ID
     });
-    const payload = ticket.getPayload();
+   const payload = ticket.getPayload();
+   if (!payload.email_verified) return res.status(401).json({ error: 'Google email is not verified.' });
+   const email = payload.email.toLowerCase();
     const email = payload.email.toLowerCase();
 
     let user = await User.findOne({ email });
