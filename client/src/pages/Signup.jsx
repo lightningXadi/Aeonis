@@ -1,0 +1,96 @@
+import { useEffect, useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import AuthLayout from '../components/AuthLayout';
+import PasswordField from '../components/PasswordField';
+import GoogleButton from '../components/GoogleButton';
+import '../components/AuthForm.css';
+import { signup } from '../api/client';
+import { setSession, isLoggedIn } from '../context/auth';
+
+export default function Signup() {
+  const navigate = useNavigate();
+  const [form, setForm] = useState({ name: '', email: '', password: '' });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (isLoggedIn()) navigate('/chat', { replace: true });
+  }, [navigate]);
+
+  const update = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.value }));
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+
+    if (form.name.trim().length < 2) return setError('Please enter your name.');
+    if (!/\S+@\S+\.\S+/.test(form.email)) return setError('Please enter a valid email.');
+    if (form.password.length < 6) return setError('Password must be at least 6 characters.');
+
+    setLoading(true);
+    try {
+      const { token, user } = await signup(form);
+      setSession(token, user);
+      navigate('/chat', { replace: true });
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <AuthLayout
+      eyebrow="MESSAGING & CALLING"
+      title="Join Aeris"
+      subtitle="One quiet place for the people you keep close."
+      footer={<>Already have an account? <Link to="/login">Re-enter Aeris</Link></>}
+    >
+      <form className="auth-form" onSubmit={handleSubmit}>
+        {error && <div className="auth-error">{error}</div>}
+
+        <div className="auth-field">
+          <label htmlFor="name">Name</label>
+          <input
+            id="name"
+            type="text"
+            placeholder="Your name"
+            value={form.name}
+            onChange={update('name')}
+            autoComplete="name"
+          />
+        </div>
+
+        <div className="auth-field">
+          <label htmlFor="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            placeholder="you@example.com"
+            value={form.email}
+            onChange={update('email')}
+            autoComplete="email"
+          />
+        </div>
+
+        <div className="auth-field">
+          <label htmlFor="password">Password</label>
+          <PasswordField
+            id="password"
+            placeholder="At least 6 characters"
+            value={form.password}
+            onChange={update('password')}
+            autoComplete="new-password"
+          />
+        </div>
+
+        <button className="auth-submit" type="submit" disabled={loading}>
+          {loading ? 'Creating your account…' : 'Join Aeris'}
+        </button>
+      </form>
+
+      <div className="auth-divider">or</div>
+      <GoogleButton label="Continue with Google" onError={setError} />
+    </AuthLayout>
+  );
+}

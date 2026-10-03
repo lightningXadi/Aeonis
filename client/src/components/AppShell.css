@@ -1,0 +1,210 @@
+.app-shell {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-bg);
+}
+/* Chat screen: the shell is exactly one screen tall; panes scroll inside. */
+.app-shell--full { height: 100svh; min-height: 0; overflow: hidden; }
+.app-shell--full .app-shell__main { min-height: 0; overflow: hidden; }
+
+.app-shell__topbar {
+  height: var(--topbar-h);
+  flex-shrink: 0;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 16px;
+  padding: 0 clamp(14px, 3vw, 32px);
+  background: rgba(250, 245, 234, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--color-line);
+  position: sticky;
+  top: 0;
+  z-index: 30;
+}
+.app-shell__logo {
+  font-family: var(--font-logo);
+  font-size: 1.5rem;
+  color: var(--color-ink);
+  justify-self: start;
+}
+
+/* Centered pill nav (desktop) */
+.app-shell__nav {
+  display: flex;
+  gap: 4px;
+  padding: 5px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  box-shadow: var(--shadow-1);
+}
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--color-ink-soft);
+  transition: background 0.15s, color 0.15s;
+}
+.nav-link:hover { color: var(--color-ink); background: rgba(0, 0, 0, 0.04); }
+.nav-link--active, .nav-link--active:hover { background: var(--color-ink); color: var(--color-bg); }
+
+.app-shell__right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-self: end;
+}
+
+.app-shell__call-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 38px;
+  padding: 0 14px;
+  border: none;
+  border-radius: 999px;
+  background: var(--color-sage);
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  animation: call-glow 2s infinite;
+}
+@keyframes call-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(91, 115, 88, 0.45); }
+  50% { box-shadow: 0 0 0 7px rgba(91, 115, 88, 0); }
+}
+
+.app-shell__user { position: relative; }
+.app-shell__user-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 10px 4px 4px;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7);
+  transition: background 0.15s, border-color 0.15s;
+}
+.app-shell__user-btn:hover { background: var(--color-surface); border-color: var(--color-line-strong); }
+.app-shell__user-name {
+  display: none;
+  font-weight: 600;
+  font-size: 0.86rem;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.app-shell__chevron { color: var(--color-ink-soft); transition: transform 0.15s; }
+.app-shell__chevron--open { transform: rotate(180deg); }
+
+.app-shell__menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  width: 230px;
+  padding: 8px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-2);
+  z-index: 40;
+  animation: menu-in 0.12s ease-out;
+}
+@keyframes menu-in { from { opacity: 0; transform: translateY(-4px); } }
+.app-shell__menu-head {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 10px 10px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid var(--color-line);
+  font-size: 0.85rem;
+}
+.app-shell__menu-head span { color: var(--color-ink-soft); font-size: 0.78rem; overflow: hidden; text-overflow: ellipsis; }
+.app-shell__menu button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: none;
+  font-weight: 600;
+  font-size: 0.86rem;
+  text-align: left;
+}
+.app-shell__menu button:hover { background: var(--color-bg-alt); }
+.app-shell__menu .app-shell__menu-danger { color: var(--color-danger); }
+.app-shell__menu .app-shell__menu-danger:hover { background: var(--color-danger-bg); }
+
+.app-shell__main { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+
+/* Floating bottom dock — phones only */
+.dock { display: none; }
+
+@media (min-width: 640px) {
+  .app-shell__user-name { display: inline; }
+}
+
+@media (max-width: 759px) {
+  .app-shell__topbar { grid-template-columns: 1fr auto; height: 58px; }
+  .app-shell__nav { display: none; }
+  .app-shell__logo { font-size: 1.35rem; }
+  .app-shell__chevron { display: none; }
+  .app-shell__user-btn { padding: 3px; border: none; background: none; }
+
+  .dock {
+    display: flex;
+    position: fixed;
+    left: 50%;
+    bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+    transform: translateX(-50%);
+    z-index: 40;
+    gap: 2px;
+    padding: 6px;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    box-shadow: var(--shadow-2);
+  }
+  .dock-link {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    min-width: 76px;
+    padding: 8px 14px 6px;
+    border-radius: 999px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--color-ink-soft);
+    transition: background 0.15s, color 0.15s;
+  }
+  .dock-link--active { background: var(--color-ink); color: var(--color-bg); }
+  .dock-link .count-badge {
+    position: absolute;
+    top: -3px;
+    right: calc(50% - 38px);
+    min-width: 17px;
+    height: 17px;
+    font-size: 0.62rem;
+    border: 2px solid #fff;
+    box-sizing: content-box;
+  }
+  /* Open thread on a phone is full-screen: no dock over the composer, and the
+     app bar gives its space back to the conversation. */
+  .app-shell--no-dock .dock,
+  .app-shell--no-dock .app-shell__topbar { display: none; }
+}

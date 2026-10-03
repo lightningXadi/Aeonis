@@ -1,0 +1,36 @@
+.hero-btn-glow {
+  display: flex;
+  min-width: 220px;
+}
+
+/* The glow wrapper's inner box must fill the pill; otherwise it shrinks to the
+   text and only the text is clickable. */
+.hero-btn-glow .border-glow-inner {
+  flex: 1 1 auto;
+  width: 100%;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.hero-btn {
+  display: block;
+  width: 100%;
+  min-height: 56px;
+  padding: 0 36px;
+  border: none;
+  background: transparent;
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-align: center;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+.hero-btn:hover { transform: translateY(-1px); }
+.hero-btn:active { transform: translateY(0); }
+
+.hero-btn--primary { color: #29231F; }
+.hero-btn--secondary { color: #FAF5EA; }
